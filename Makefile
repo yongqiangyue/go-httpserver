@@ -1,4 +1,4 @@
-export tag=0.3
+export tag=0.4
 CGO_ENABLED := 0
 # GOOS := darwin
 GOOS := linux
@@ -15,5 +15,10 @@ release: build
 	docker build -t httpserver:${tag} .
 
 run: release
-	echo "pushing httpserver"
+	echo "running httpserver"
 	docker run -it -p $(PORT):$(PORT) httpserver:${tag} --rm
+
+push: release
+	echo "pushing httpserver"
+	docker tag httpserver:${tag} yueyongqiang/httpserver:${tag}
+	docker push yueyongqiang/httpserver:${tag}
