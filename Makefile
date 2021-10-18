@@ -1,4 +1,4 @@
-export tag=0.4
+export tag=0.6
 CGO_ENABLED := 0
 # GOOS := darwin
 GOOS := linux
@@ -10,7 +10,7 @@ build:
 	mkdir -p bin/amd64
 	CGO_ENABLED=$(CGO_ENABLED) GOOS=$(GOOS) GOARCH=$(GOARCH) go build -o bin/$(GOARCH) .
 
-release: build
+release:
 	echo "building httpserver container"
 	docker build -t httpserver:${tag} .
 
