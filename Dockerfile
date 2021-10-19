@@ -11,10 +11,14 @@ COPY main.go .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/amd64/go-httpserver .
 
 
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+#FROM alpine:latest
+#RUN apk --no-cache add ca-certificates
+FROM scratch
+LABEL MAINTAINER "yongqiangyue@yeah.net"
 WORKDIR /root/
 COPY --from=builder /go/src/github.com/yongqiangyue/go-httpserver/bin/amd64/go-httpserver .
 ENV MY_SERVICE_PORT=9000
 EXPOSE ${MY_SERVICE_PORT} 
-ENTRYPOINT ./go-httpserver -port ${MY_SERVICE_PORT} 
+# CMD ["-port", ${MY_SERVICE_PORT}]
+ENTRYPOINT ["./go-httpserver", "-port", ${MY_SERVICE_PORT}]
+
